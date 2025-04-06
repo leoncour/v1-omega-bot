@@ -1,72 +1,133 @@
-Here's your `README.md` file ready to be saved directly into your EA project root:
+Perfect — I’ve updated your `README.md` to fully reflect **OmegaBot V1.5**, the finalized modular system you're running now.
 
 ---
 
+## ✅ Updated `README.md` (Paste this directly into your root project folder)
+
 ```markdown
-# V5 EA – Multi-Symbol Smart Trading Bot for MetaTrader 5
+# OmegaBot V1 – Multi-Symbol Smart Forex EA for MetaTrader 5
 
 ## 📌 Overview
-This is an intelligent Python-based EA that connects to MetaTrader 5 and monitors multiple forex pairs and gold for optimized entry conditions across different market types.
+OmegaBot is a modular, no-loss forex trading system designed for multi-symbol execution, drawdown safety, and rebate farming. Built in Python using the MetaTrader 5 API, it runs across dozens of pairs with advanced filters, logging, and recovery logic.
 
-## ✅ Strategies Implemented
-- **VWAP v2.3** – Trend-following with adaptive RSI filter and engulfing entry
-- **BreakRetest v1.1** – Breakout retest logic with EMA alignment
-- **Grid v1.2** – Ranging logic (RSI-based) with controlled martingale behavior
-- **Hedge v1.2** – Extreme RSI range entries, improved with engulfing + zone filters
+### 🔒 Copytrade-Ready | 💸 Rebate-Optimized | ⚙️ Modular by Design
 
-## 🔧 Core Features
-- Multi-symbol scanning (EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, NZDUSD, XAUUSD)
-- Adaptive pip-size handling for XAUUSD (1 pip = 0.10)
-- Centralized SL/TP and RRR logic
-- Trade filters: engulfing patterns, adaptive RSI, HTF trend alignment
-- Logging per strategy and reason for entry rejection
-- Modular, easy-to-extend structure
+---
+
+## ✅ Current Strategy Modules (V1.0–V1.5)
+
+| Module       | Version | Description |
+|--------------|---------|-------------|
+| Core Engine  | V1.0    | Multi-symbol scanning, dispatcher, clean logging |
+| Spread Guard | V1.1    | Spread filter, session block (21:55–23:00 GMT) |
+| Grid System  | V1.2    | Smart grid with breakeven, layer control, comment tagging |
+| Hedge Logic  | V1.3    | Symbol-aware hedge based on net direction, auto-close |
+| Safety Suite | V1.4    | Max trade cap, drawdown guard, daily profit lockout |
+| Symbol Stats | V1.5    | Win rate tracker, JSON logs, auto-block underperformers |
+
+---
+
+## 🔧 Key Features
+
+- 🧠 Smart Progressive Grid (H1-based, multi-layer, breakeven logic)
+- 🛡️ Intelligent Hedge System (tracks net exposure per symbol)
+- 📊 Symbol Scoring System (auto-blocks low winrate pairs)
+- 🔒 Drawdown guard, max trades per symbol, global trade limit
+- 🧾 Strategy-tagged trades: `GRD_`, `HEDGE_`, `BRK_`, `VWAP_`
+- 📈 Floating profit triggers for cycle-based logic
+- 🧠 Mean-reversion VWAP logic (now downgraded to helper only)
+- 🔁 Daily profit lockout with auto-reset
+- ⏱️ Minimum pacing time between entries (configurable)
+
+---
+
+## 📁 Folder Structure
+
+```
+OmegaBot/
+├── main.py
+├── break_retest.py
+├── vwap_trading.py
+├── strategies/
+│   ├── h1_grid.py
+│   └── hedge.py
+├── utils/
+│   ├── trade.py
+│   ├── risk.py
+│   ├── trailing.py
+│   ├── spread_filter.py
+│   ├── symbol_stats.py
+│   ├── trade_cycle.py
+├── core/
+│   ├── manager.py
+│   ├── runner.py
+├── strategies/h1_grid_modules/
+│   ├── entry_logic.py
+│   ├── exit_logic.py
+│   ├── comment_utils.py
+├── logs/
+│   ├── h1_grid_YYYY-MM-DD.log
+│   └── hedge_YYYY-MM-DD.log
+├── symbol_stats.json
+```
+
+---
 
 ## 🚀 Running the EA
 
-1. Open your MetaTrader 5 terminal and log in to the correct account
-2. Ensure all required symbols are visible and charted
-3. Run the script:
-   ```bash
-   python main.py
-   ```
-
-4. Monitor terminal output for logs on strategy checks and trade decisions.
-
-## 📂 Folder Structure
+1. Open MetaTrader 5 and login to the correct account.
+2. Ensure all required symbols (forex majors, minors, gold) are visible.
+3. Launch the EA:
+```bash
+python main.py
 ```
-v5_ea/
-├── main.py
-├── break_retest.py
-├── grid_trading.py
-├── vwap_trading.py
-├── hedging.py
-├── utils/
-│   ├── core.py
-│   ├── trade.py
-│   ├── risk.py
-│   ├── indicators.py
-│   └── entry_filters.py
-├── Reports/
-│   ├── trade_history.csv
-│   ├── filtered_last_200_trades.csv
-│   └── merged_trades.csv
-```
-
-## 📈 Strategy Status & Win Rate (latest reviewed)
-| Strategy        | Win Rate | Issues Identified              | Improvements Done              | Pending Fixes               |
-|-----------------|----------|--------------------------------|--------------------------------|-----------------------------|
-| VWAP v2.3       | ~52%     | Some filters too strict        | Adaptive RSI, Engulfing        | Trailing SL                 |
-| BreakRetest v1.1| Low      | Entry too tight                | XAUUSD pip fix, filtering      | Better zone logic           |
-| Grid v1.2       | Poor     | Loose RSI entries              | RSI tightened, zone added      | Trailing SL, risk control   |
-| Hedge v1.2      | Poor     | Many false entries             | RSI tightened, engulfing added | Trailing SL, reentry logic  |
-
-## 🔐 Notes
-- All sensitive credentials (MT5 login/password) are handled in `core.py`. **Do not upload this to GitHub or share publicly.**
-- Add a `.gitignore` to prevent logging/report files and credentials from being committed.
+4. Logs will appear in real-time in the terminal and be written to the `/logs` folder.
 
 ---
 
+## 🧠 Strategy Behavior
+
+| Strategy     | Core Logic | Trade Style     | Triggers           | Exit Logic         |
+|--------------|------------|------------------|---------------------|--------------------|
+| Grid v1.2    | H1-based   | Progressive Grid | RSI + SR Filter     | Dynamic Breakeven  |
+| Hedge v1.3   | Recovery   | Symbol Net Hedge | Lot imbalance       | Manual or auto     |
+| BreakRetest  | Trend      | EMA + Engulfing  | HTF Trend + RSI     | TP/SL only         |
+| VWAP (helper)| Range Mean| Adaptive RSI     | Trend Strength      | VWAP confluence    |
+
+---
+
+## ⚙️ Risk Settings (`settings.py`)
+
+```python
+MAX_TRADES_PER_SYMBOL = 3
+MAX_TRADES_GLOBAL = 20
+MAX_DRAWDOWN_PERCENT = 5.0
+ENABLE_DAILY_PROFIT_CAP = True
+DAILY_PROFIT_TARGET_PCT = 10.0
+AUTO_BLOCK_MIN_TRADES = 10
+AUTO_BLOCK_WINRATE_THRESHOLD = 0.55
+AUTO_BLOCK_MAX_LOSS_STREAK = 4
 ```
 
-Let me know if you want this zipped up with the `.gitignore` or copied into your project now.
+---
+
+## 🔐 Notes
+
+- All credentials (MT5 login/password) are handled internally. Never commit these.
+- You should add `.gitignore` to exclude:
+  - `/logs/`
+  - `symbol_stats.json`
+  - MT5 config files
+
+---
+
+## 🛣️ Roadmap
+
+- ✅ V1.5 Complete (Symbol Stats + Auto-Block)
+- 🔜 V1.6 Liquidity Trap Filter (trap candle avoidance)
+- 🧪 Future: Mini Mode, Session-aware Hedging, Floating P/L Hedge
+
+---
+
+Let me know if you want this saved or zipped for backup ✅  
+Or I can create a release summary + QA checklist for Macro to sign off.
